@@ -32,12 +32,8 @@ class ApplicationCommand extends Command
     {
         $line = 30; //exec('tput lines');
         $colonne = 40; //exec('tput cols');
-
-        //$line = exec('tput lines');
-        //$colonne = exec('tput cols');
-
+        
         $symfonyStyle = new SymfonyStyle($input, $output);
-
         $symfonyStyle->title("IA");
 
         $mapRender = new ConsoleMapRender($output);
@@ -63,7 +59,6 @@ class ApplicationCommand extends Command
     protected function addChat($x, $y)
     {
         $chat = new Chat();
-
         $chat->getPosition()->setDirection(new Direction(1, 0));
 
         $chat->getPosition()->setX($x);
