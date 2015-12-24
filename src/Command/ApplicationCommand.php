@@ -31,18 +31,13 @@ class ApplicationCommand extends Command
     {
         $line = 30; //exec('tput lines');
         $colonne = 40; //exec('tput cols');
-
-        //$line = exec('tput lines');
-        //$colonne = exec('tput cols');
-
+        
         $symfonyStyle = new SymfonyStyle($input, $output);
-
         $symfonyStyle->title("IA");
 
         $mapRender = new ConsoleMapRender($output);
 
         $chat = new Chat();
-
         $chat->getPosition()->setDirection(new Direction(1, 0));
 
         $map = new MapBuilder((new RandomMapProvider($line, $colonne))->getMap());
