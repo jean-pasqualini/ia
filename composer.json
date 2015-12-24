@@ -1,0 +1,21 @@
+{
+    "name": "jean-pasqualini/ia",
+    "description": "ia php testing",
+    "require": {
+        "symfony/console": "2.8.*"
+    },
+    "license": "MIT",
+    "autoload" : 
+    {
+	"psr-0":
+	{
+		"" : "src/"
+	}
+    },
+    "authors": [
+        {
+            "name": "Jean Pasqualini",
+            "email": "jean.pasqualini.abbeal@gmail.com"
+        }
+    ]
+}

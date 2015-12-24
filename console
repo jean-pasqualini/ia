@@ -1,0 +1,9 @@
+#!/usr/bin/php
+
+<?php
+
+require "vendor/autoload.php";
+
+$application = new ApplicationConsole();
+
+$application->run();
