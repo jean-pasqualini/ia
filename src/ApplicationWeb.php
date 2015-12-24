@@ -18,31 +18,39 @@ $colonne = 40; //exec('tput cols');
 
 $mapRender = new WebMapRender();
 
-if(!isset($_SESSION["chat"]))
+if(!isset($_SESSION["world"]))
 {
     $chat = new Chat();
 
     $chat->getPosition()->setDirection(new Direction(1, 0));
-}
-else
-{
-    $chat = unserialize($_SESSION["chat"]);
-}
 
-if(!isset($_SESSION["map"]))
-{
     $map = new MapBuilder((new RandomMapProvider($line, $colonne))->getMap());
+
+    $world = new \Map\World\World($map, array(
+        $chat
+    ));
 }
 else
 {
-    $map = unserialize($_SESSION["map"]);
+    $world = unserialize($_SESSION["world"]);
 }
 
-$chat->move();
 
-$map->setItem($chat->getPosition(), "P");
+try {
+    $world->update();
 
-$mapRender->render($map->getMap());
+    $players = $world->getPlayerCollection();
 
-$_SESSION["chat"] = serialize($chat);
-$_SESSION["map"] = serialize($map);
+    foreach ($players as $player) {
+        $world->getMap()->setItem($player->getPosition(), "P");
+    }
+
+    $mapRender->render($world->getMap()->getMap());
+
+}
+catch(Exception $e)
+{
+    echo "<h1>".$e->getMessage()."</h1>";
+}
+
+$_SESSION["world"] = serialize($world);

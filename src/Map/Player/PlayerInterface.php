@@ -8,10 +8,19 @@
 
 namespace Map\Player;
 
+use IA\IAInterface;
+use Map\World\World;
 
 interface PlayerInterface
 {
     public function move();
 
     public function getPosition();
+
+    /**
+     * @return IAInterface
+     */
+    public function getIa();
+
+    public function update(World $world);
 }

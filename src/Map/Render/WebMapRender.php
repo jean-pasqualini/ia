@@ -19,7 +19,7 @@ class WebMapRender
 
         $output .= <<<EOF
         <head>
-            <meta http-equiv="refresh" content="1">
+            <meta http-equiv="refresh" content="0">
         </head>
 EOF;
 

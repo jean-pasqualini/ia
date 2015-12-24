@@ -15,6 +15,7 @@ use Map\Provider\RandomMapProvider;
 use Map\Render\ConsoleMapRender;
 use Map\Player\Chat;
 use Map\Player\PlayerInterface;
+use Map\World\World;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -41,27 +42,54 @@ class ApplicationCommand extends Command
 
         $mapRender = new ConsoleMapRender($output);
 
+        $map = new MapBuilder((new RandomMapProvider($line, $colonne))->getMap());
+
+        $world = new World($map, array(
+            $this->addChat(5, 5),
+            $this->addChat(10, 10)
+        ));
+
+        try {
+            $this->render($mapRender, $world);
+        }
+        catch(\Exception $e)
+        {
+            $symfonyStyle->error($e->getMessage());
+
+            return;
+        }
+    }
+
+    protected function addChat($x, $y)
+    {
         $chat = new Chat();
 
         $chat->getPosition()->setDirection(new Direction(1, 0));
 
-        $map = new MapBuilder((new RandomMapProvider($line, $colonne))->getMap());
+        $chat->getPosition()->setX($x);
 
-        $this->render($mapRender, $map, $chat);
+        $chat->getPosition()->setY($y);
+
+        return $chat;
     }
 
-    public function render(ConsoleMapRender $mapRender, MapBuilder $map, PlayerInterface $player)
+    public function render(ConsoleMapRender $mapRender, World $world)
     {
-        $player->move();
+        $world->update();
 
-        $map->setItem($player->getPosition(), "P");
+        $players = $world->getPlayerCollection();
 
-        $mapRender->render($map->getMap());
+        foreach($players as $player)
+        {
+            $world->getMap()->setItem($player->getPosition(), "P");
+        }
+
+        $mapRender->render($world->getMap()->getMap());
 
         usleep(200);
 
-        $mapRender->clear($map->getMap());
+        $mapRender->clear($world->getMap()->getMap());
 
-        $this->render($mapRender, $map, $player);
+        $this->render($mapRender, $world);
     }
 }
