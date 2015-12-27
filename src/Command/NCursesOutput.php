@@ -25,7 +25,11 @@ class NCursesOutput extends Output {
 
         ncurses_init();
 
+        //ncurses_mvaddstr(55,1,"My first ncurses application");
+
         $this->window = ncurses_newwin(40, 30, 0, 0);
+
+        ncurses_wborder($this->window, 0,0 , 0,0 , 0,0 , 0,0);
     }
 
     public function __destruct()
@@ -45,13 +49,14 @@ class NCursesOutput extends Output {
 
         $message = strip_tags($message);
 
-        ncurses_waddstr($this->window, $message, count($message));
+        //ncurses_waddstr($this->window, $message, count($message));
 
         if($newline)
         {
             ncurses_getyx(STDSCR, $curx, $cury);
 
             ncurses_move($cury + 1, 0);
+            ncurses_wrefresh($this->window);
            // ncurses_addchnstr("\n", 1);
            //
            //

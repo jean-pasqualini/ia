@@ -36,7 +36,7 @@ class ApplicationCommand extends Command
         $symfonyStyle = new SymfonyStyle($input, $output);
         $symfonyStyle->title("IA");
 
-        $mapRender = new ConsoleMapRender($output);
+        $mapRender = new ConsoleMapRender($output, false, true);
 
         $map = new MapBuilder((new RandomMapProvider($line, $colonne))->getMap());
 
