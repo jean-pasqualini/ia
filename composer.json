@@ -13,7 +13,7 @@
       },
       "psr-4" :
       {
-          "CurseFramework\\" : "ncurses-php-framework\\Lib"
+          "CurseFramework\\" : "ncurses-framework\\Lib"
       }
     },
     "authors": [

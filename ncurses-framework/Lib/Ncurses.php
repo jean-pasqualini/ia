@@ -1,4 +1,6 @@
 <?php
+namespace CurseFramework;
+
 class Ncurses
 {
     const XCURSES_KEY_LF    = 13;

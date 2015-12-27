@@ -1,5 +1,5 @@
 <?php
-
+namespace CurseFramework;
 class Listbox extends SubWindow
 {
     private $items      = array();
@@ -27,14 +27,7 @@ class Listbox extends SubWindow
      */
     public function drawList($current = null)
     {
-        if ( Main::getFocus() === $this->getWindow() )
-        {
-            $current = $this->current;
-        }
-        else
-        {
-            $current = null;
-        }
+        $current = $this->current;
 
         // Current more than last visible item
         if ( ( $current > ($this->firstPos + $this->getMaxY()) ) && count($this->items) > $current )
@@ -51,7 +44,6 @@ class Listbox extends SubWindow
             $lastPos = $this->firstPos + $this->getMaxY();
         }
 
-Main::_debug('c='.$current.' p='.$this->firstPos.' m='.$this->getMaxY().' i='.count($this->items));
 
         for ($i = $this->firstPos; $i < $lastPos  ; $i++)
         {

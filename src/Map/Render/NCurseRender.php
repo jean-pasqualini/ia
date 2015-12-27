@@ -61,7 +61,7 @@ class NCurseRender extends Ncurses implements MapRenderInterface {
         $this->timer = new Timer(3, 10, 5, 5);
         $this->timer->border();
 
-        $this->listbox = new Listbox(5, 20, 5, 20);
+        $this->listbox = new Listbox($this->window, 5, 20, 5, 20);
         $this->listbox->border();
         $this->listbox->setItems(array(
             array("title" => "Quitter", "bold" => false),
@@ -77,14 +77,18 @@ class NCurseRender extends Ncurses implements MapRenderInterface {
 
     public function render($map)
     {
+        $this->window->setChanged(true);
         $this->window->refresh();
 
+        $this->map->setChanged(true);
         $this->map->draw($map);
         $this->map->refresh();
 
+        $this->timer->setChanged(true);
         $this->timer->draw();
         $this->timer->refresh();
 
+        //$this->listbox->setChanged(false);
         $this->listbox->drawList();
         $this->listbox->refresh();
         usleep(100000);

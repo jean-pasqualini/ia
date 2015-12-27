@@ -2,6 +2,7 @@
 /**
  * 
  */
+namespace CurseFramework;
 class Cursor 
 {
     /**

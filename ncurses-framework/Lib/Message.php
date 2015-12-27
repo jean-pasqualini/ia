@@ -1,5 +1,5 @@
 <?php
-
+namespace CurseFramework;
 class Message extends SubWindow
 {
     /**

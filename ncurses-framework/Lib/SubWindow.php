@@ -1,5 +1,5 @@
 <?php
-
+namespace CurseFramework;
 class SubWindow extends Window
 {
     /**
