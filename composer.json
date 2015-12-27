@@ -7,10 +7,14 @@
     "license": "MIT",
     "autoload" : 
     {
-	"psr-0":
-	{
-		"" : "src/"
-	}
+      "psr-0":
+      {
+          "" : "src/"
+      },
+      "psr-4" :
+      {
+          "CurseFramework\\" : "ncurses-php-framework\\Lib"
+      }
     },
     "authors": [
         {

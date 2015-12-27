@@ -16,11 +16,13 @@ class MapBuilder
     const HERBE = "X";
     const ARBRE = "Y";
     const EAU = "E";
+    const FLEUR = "F";
 
     protected static $allowedItems = array(
         self::HERBE,
         self::ARBRE,
-        self::EAU
+        self::EAU,
+        self::FLEUR
     );
 
     public function __construct($map)

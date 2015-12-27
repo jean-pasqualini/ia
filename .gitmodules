@@ -1,0 +1,3 @@
+[submodule "ncurses-php-framework"]
+	path = ncurses-php-framework
+	url = https://github.com/ukko/ncurses-php-framework.git

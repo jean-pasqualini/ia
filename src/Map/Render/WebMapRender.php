@@ -11,7 +11,7 @@ namespace Map\Render;
 
 use Map\Builder\MapBuilder;
 
-class WebMapRender
+class WebMapRender implements MapRenderInterface
 {
     public function render($map)
     {

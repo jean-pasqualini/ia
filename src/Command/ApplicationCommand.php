@@ -15,9 +15,12 @@ use Map\Provider\RandomMapProvider;
 use Map\Render\ConsoleMapRender;
 use Map\Player\Chat;
 use Map\Player\PlayerInterface;
+use Map\Render\MapRenderInterface;
+use Map\Render\NCurseRender;
 use Map\World\World;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
@@ -26,17 +29,19 @@ class ApplicationCommand extends Command
     public function configure()
     {
         $this->setName("application");
+        $this->addOption("curse", null, InputOption::VALUE_NONE, "active curse");
+        $this->addOption("size", null, InputOption::VALUE_REQUIRED, "taille", exec('tput lines')."x".exec('tput cols'));
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $line = 30; //exec('tput lines');
-        $colonne = 40; //exec('tput cols');
+        list($line, $colonne) = explode("x", $input->getOption("size"));
+
         
         $symfonyStyle = new SymfonyStyle($input, $output);
         $symfonyStyle->title("IA");
 
-        $mapRender = new ConsoleMapRender($output, false, true);
+        $mapRender = (!$input->getOption("curse")) ? new ConsoleMapRender($output) : new NCurseRender($line, $colonne);
 
         $map = new MapBuilder((new RandomMapProvider($line, $colonne))->getMap());
 
@@ -70,7 +75,7 @@ class ApplicationCommand extends Command
         return $chat;
     }
 
-    public function render(ConsoleMapRender $mapRender, World $world)
+    public function render(MapRenderInterface $mapRender, World $world)
     {
         $world->update();
 
