@@ -8,6 +8,7 @@
 
 namespace Map\Render;
 
+use Command\NCursesOutput;
 use Map\Builder\MapBuilder;
 use Map\Map;
 use Symfony\Component\Console\Output\BufferedOutput;
@@ -21,8 +22,13 @@ class ConsoleMapRender
 
     protected $columns;
 
-    public function __construct(OutputInterface $output, $buffer = false)
+    public function __construct(OutputInterface $output, $buffer = false, $ncurse = false)
     {
+        if(extension_loaded("ncurses") && $ncurse)
+        {
+            $output = new NCursesOutput();
+        }
+
         $this->columns = exec('tput cols');
 
         $this->standardOutput = ($buffer) ? $output : null;
@@ -48,10 +54,18 @@ class ConsoleMapRender
     protected function flushOutput()
     {
         if($this->standardOutput !== null) $this->standardOutput->write($this->output->fetch());
+
+        if($this->output instanceof NCursesOutput)
+        {
+            $this->output->flush();
+        }
     }
 
     public function clear($map)
     {
+        sleep(1);
+
+        if($this->output instanceof NCursesOutput) $this->output->clear();
         $this->output->write(str_repeat("\x08", count($map) * $this->columns));
 
         $this->flushOutput();
@@ -60,10 +74,11 @@ class ConsoleMapRender
     public function format($item)
     {
         $mapping = array(
-            MapBuilder::HERBE => '<fg=green;bg=green>H</>',
-            MapBuilder::ARBRE => '<fg=black;bg=black>A</>',
-            MapBuilder::EAU => '<fg=cyan;bg=cyan>E</>',
-            "P" => '<fg=magenta;bg=magenta>P</>',
+            MapBuilder::HERBE => '<fg=green;bg=green>✿</>',
+            //MapBuilder::HERBE => '<fg=red;bg=green>✿</>'
+            MapBuilder::ARBRE => '<fg=black;bg=green>↟</>',
+            MapBuilder::EAU => '<fg=white;bg=cyan>∼</>',
+            "P" => '<fg=white;bg=green>☺</>',
         );
 
         return (isset($mapping[$item]) ? $mapping[$item] : $item);

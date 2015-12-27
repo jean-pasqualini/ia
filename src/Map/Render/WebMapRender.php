@@ -47,9 +47,9 @@ EOF;
     {
         $mapping = array(
             MapBuilder::HERBE => '<div style="background: green; color: green;">H</div>',
-            MapBuilder::ARBRE => '<div style="background: black; color: black;">A</div>',
-            MapBuilder::EAU => '<div style="background: cyan; color: cyan;">E</div>',
-            "P" => '<div style="background: magenta; color: magenta;">P</div>',
+            MapBuilder::ARBRE => '<div style="background: green; color: black;">↟</div>',
+            MapBuilder::EAU => '<div style="background: cyan; color: white;">∼</div>',
+            "P" => '<div style="background: magenta; green: white;">☺</div>',
         );
 
         return (isset($mapping[$item]) ? $mapping[$item] : $item);

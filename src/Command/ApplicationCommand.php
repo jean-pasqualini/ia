@@ -50,6 +50,8 @@ class ApplicationCommand extends Command
         }
         catch(\Exception $e)
         {
+            unset($mapRender);
+
             $symfonyStyle->error($e->getMessage());
 
             return;
