@@ -66,7 +66,7 @@ class ApplicationCommand extends Command
     protected function addChat($x, $y)
     {
         $chat = new Chat();
-        $chat->getPosition()->setDirection(new Direction(1, 0));
+       // $chat->getPosition()->setDirection(new Direction(1, 0));
 
         $chat->getPosition()->setX($x);
 

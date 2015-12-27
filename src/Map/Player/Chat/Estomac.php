@@ -27,7 +27,7 @@ class Estomac
     {
         if($this->nouriture == 0 && $world->getTimer()->isTime(1))
         {
-            $this->player->setLife($this->player->getLife() - 1);
+            //$this->player->setLife($this->player->getLife() - 1);
 
             return;
         }

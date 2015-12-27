@@ -25,9 +25,23 @@ class NCurseRender extends Ncurses implements MapRenderInterface {
 
     protected $map;
 
+    protected static $instance;
+
+    public function getWindow()
+    {
+        return $this->map;
+    }
+
+    public static function getInstance()
+    {
+        return self::$instance;
+    }
+
     public function __construct($line, $colonne)
     {
         parent::__construct();
+
+        self::$instance = $this;
 
         if(!extension_loaded("ncurses"))
         {

@@ -17,6 +17,7 @@ $colonne = 40; //exec('tput cols');
 //$colonne = exec('tput cols');
 
 $mapRender = new WebMapRender();
+$mapRender->updateTime = 10000;
 
 if(!isset($_SESSION["world"]))
 {
@@ -53,4 +54,4 @@ catch(Exception $e)
     echo "<h1>".$e->getMessage()."</h1>";
 }
 
-$_SESSION["world"] = serialize($world);
+//$_SESSION["world"] = serialize($world);
