@@ -31,6 +31,7 @@ class ApplicationCommand extends Command
         $this->setName("application");
         $this->addOption("curse", null, InputOption::VALUE_NONE, "active curse");
         $this->addOption("size", null, InputOption::VALUE_REQUIRED, "taille", exec('tput lines')."x".exec('tput cols'));
+        $this->addOption("load-dump", null, InputOption::VALUE_REQUIRED, "memory load dump");
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -43,12 +44,30 @@ class ApplicationCommand extends Command
 
         $mapRender = (!$input->getOption("curse")) ? new ConsoleMapRender($output) : new NCurseRender($line, $colonne);
 
-        $map = new MapBuilder((new RandomMapProvider($line, $colonne))->getMap());
+        if(!$input->getOption("load-dump"))
+        {
+            $map = new MapBuilder((new RandomMapProvider($line, $colonne))->getMap());
 
-        $world = new World($map, array(
-            $this->addChat(5, 5),
-            $this->addChat(10, 10)
-        ));
+            $world = new World($map, array(
+                $this->addChat(5, 5),
+                $this->addChat(10, 10)
+            ));
+        }
+        else
+        {
+            $file = $input->getOption("load-dump");
+
+            if(!file_exists($file))
+            {
+                if(extension_loaded("ncurses")) ncurses_end();
+
+                $symfonyStyle->error("le fichier $file n'existe pas");
+                return;
+            }
+
+            $world = unserialize(file_get_contents($file))->getFlashMemory()->all()[0]->getData();
+        }
+
 
         try {
             $this->render($mapRender, $world);
@@ -78,6 +97,13 @@ class ApplicationCommand extends Command
     public function render(MapRenderInterface $mapRender, World $world)
     {
         $world->update();
+
+        if($world->getInputController()->getKey() == "x")
+        {
+            $world->getMemoryManager()->persist();
+
+            return;
+        }
 
         $players = $world->getPlayerCollection();
 

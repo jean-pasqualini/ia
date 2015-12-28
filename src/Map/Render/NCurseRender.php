@@ -14,6 +14,7 @@ use CurseFramework\Ncurses;
 use CurseFramework\Window;
 use Map\Builder\MapBuilder;
 use Map\Render\Curse\Map;
+use Map\Render\Curse\Statictic;
 use Map\Render\Curse\Timer;
 use CurseFramework\Listbox;
 
@@ -28,6 +29,8 @@ class NCurseRender extends Ncurses implements MapRenderInterface {
     protected $map;
 
     protected $listbox;
+
+    protected $statistic;
 
     protected $timer;
 
@@ -68,6 +71,9 @@ class NCurseRender extends Ncurses implements MapRenderInterface {
             array("title" => "Regenerer map", "bold" => false),
         ));
 
+        $this->statistic = new Statictic($this->window, 5, 20, 10, 30);
+        $this->statistic->border();
+
         $this->map = new Map($y/2, $x/2, ($y/2/2), ($x/2/2));
         $this->map->border();
 
@@ -79,6 +85,10 @@ class NCurseRender extends Ncurses implements MapRenderInterface {
     {
         $this->window->setChanged(true);
         $this->window->refresh();
+
+        $this->statistic->update();
+        $this->statistic->drawList();
+        $this->statistic->refresh();
 
         $this->map->setChanged(true);
         $this->map->draw($map);

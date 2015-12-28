@@ -1,7 +1,10 @@
 <?php
 namespace Map\World;
 use IA\ApplicationIA;
+use InputController\KeyboardInputController;
 use Map\Builder\MapBuilder;
+use Memory\MemoryManager;
+use Snapshot\Instant;
 use Timer;
 
 /**
@@ -20,6 +23,10 @@ class World
 
     protected $timer;
 
+    protected $memoryManager;
+
+    protected $inputController;
+
     public function __construct(MapBuilder $map, array $players = array())
     {
         $this->players = $players;
@@ -29,13 +36,31 @@ class World
         $this->worldIA = new ApplicationIA();
 
         $this->timer = new Timer();
+
+        $this->memoryManager = new MemoryManager();
+
+        $this->inputController = new KeyboardInputController();
+    }
+
+    public function getMemoryManager()
+    {
+        return $this->memoryManager;
+    }
+
+    public function getInputController()
+    {
+        return $this->inputController;
     }
 
     public function update()
     {
         $this->timer->update();
 
+        $this->inputController->update();
+
         $this->worldIA->update($this);
+
+        $this->memoryManager->getFlashMemory()->addInstant(new Instant($this));
     }
 
     public function getTimer()
