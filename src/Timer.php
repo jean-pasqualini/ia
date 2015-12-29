@@ -15,6 +15,11 @@ class Timer
         $this->tick++;
     }
 
+    public function getTick()
+    {
+        return $this->tick;
+    }
+
     public function isTime($probabiltiy)
     {
         return $this->tick % $probabiltiy == 0;

@@ -28,6 +28,23 @@ class Point
         $this->y = $y;
     }
 
+    public function setSpeed($speed)
+    {
+        $this->speed = $speed;
+    }
+
+    public function increaseSpeed()
+    {
+        $this->speed ++;
+    }
+
+    public function decreaseSpeed()
+    {
+        if($this->speed < 2) return;
+
+        $this->speed --;
+    }
+
     public function getX()
     {
         return $this->x;

@@ -36,8 +36,20 @@ class World
 
     protected $lastUpdateTime = 0;
 
+    protected static $instance;
+
+    /**
+     * @return World
+     */
+    public static function getInstance()
+    {
+        return self::$instance;
+    }
+
     public function __construct(MapBuilder $map, array $players = array())
     {
+        self::$instance = $this;
+
         $this->players = $players;
 
         $this->map = $map;
@@ -108,7 +120,7 @@ class World
 
         $this->worldIA->update($this);
 
-        $this->memoryManager->getFlashMemory()->addInstant(new Instant($this));
+   //     $this->memoryManager->getFlashMemory()->addInstant(new Instant($this));
     }
 
     public function getTimer()

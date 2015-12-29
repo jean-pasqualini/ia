@@ -15,10 +15,6 @@ use IA\IAInterface;
 
 class ApplicationIA implements IAInterface
 {
-    public function __construct()
-    {
-    }
-
     public function update(World $world)
     {
         $players = $world->getPlayerCollection();
@@ -29,6 +25,11 @@ class ApplicationIA implements IAInterface
             $player->getIa()->update($world);
 
             $player->update($world);
+        }
+
+        if($world->getTimer()->isTime(100))
+        {
+            gc_collect_cycles();
         }
     }
 }
