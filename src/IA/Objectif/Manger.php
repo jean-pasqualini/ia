@@ -34,11 +34,16 @@ class Manger {
     {
         if($this->path !== null && $this->path->isEnd())
         {
-            $world->getLogger()->log(LogLevel::INFO, "le chat mange");
+            $item = $world->getMap()->getItem($this->path->getDestination());
 
-            $this->player->getEstomac()->setNouriture($this->player->getEstomac()->getNouriture() + 10);
+            if(1 == 1 || $item == MapBuilder::FLEUR)
+            {
+                $world->getLogger()->log(LogLevel::INFO, "le chat mange");
 
-            $world->getMap()->setItem($this->path->getDestination(), MapBuilder::HERBE);
+                $this->player->getEstomac()->setNouriture($this->player->getEstomac()->getNouriture() + 10);
+
+                $world->getMap()->setItem($this->path->getDestination(), MapBuilder::HERBE);
+            }
 
             $this->path = null;
         }

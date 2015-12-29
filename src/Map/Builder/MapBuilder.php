@@ -51,6 +51,11 @@ class MapBuilder
         return null;
     }
 
+    public function getItem(Point $position)
+    {
+        return $this->map[$position->getY()][$position->getX()];
+    }
+
     public function crop($x, $y)
     {
         $this->map = array_slice($this->map, 0, $y);

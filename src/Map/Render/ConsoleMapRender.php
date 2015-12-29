@@ -34,7 +34,7 @@ class ConsoleMapRender implements MapRenderInterface
     public function getSize()
     {
         return array(
-            "x" => exec('tput rows'),
+            "x" => exec('tput lines'),
             "y" => exec('tput cols')
         );
     }

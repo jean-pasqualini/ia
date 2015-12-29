@@ -44,7 +44,7 @@ class ApplicationCommand extends Command
             $symfonyStyle = new SymfonyStyle($input, $output);
             $symfonyStyle->title("IA");
 
-            $mapRender = (!$input->getOption("curse")) ? new ConsoleMapRender($output) : new NCurseRender($line, $colonne);
+            $mapRender = (!$input->getOption("curse")) ? new ConsoleMapRender($output, true) : new NCurseRender($line, $colonne);
 
             if(!$input->getOption("load-dump"))
             {
@@ -54,7 +54,7 @@ class ApplicationCommand extends Command
 
                 $world = new World($map, array(
                     $this->addChat(5, 5),
-                   // $this->addChat(10, 10)
+                    $this->addChat(10, 10)
                 ));
             }
             else
