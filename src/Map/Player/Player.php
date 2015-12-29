@@ -2,6 +2,7 @@
 
 namespace Map\Player;
 use Map\World\World;
+use Map\Location\Point;
 
 /**
  * Created by PhpStorm.
@@ -11,11 +12,28 @@ use Map\World\World;
  */
 abstract class Player implements PlayerInterface
 {
+    protected $position;
+
     protected $life = 10;
 
     protected $resistance = 0;
 
     protected $puissance = 1;
+
+    protected $eventDispatcher;
+
+    public function getEventDispatcher()
+    {
+        return $this->eventDispatcher;
+    }
+
+    /**
+     * @return Point
+     */
+    public function getPosition()
+    {
+        return $this->position;
+    }
 
     public function getLife()
     {

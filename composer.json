@@ -2,15 +2,21 @@
     "name": "jean-pasqualini/ia",
     "description": "ia php testing",
     "require": {
-        "symfony/console": "2.8.*"
+        "symfony/console": "2.8.*",
+        "psr/log": "^1.0",
+        "symfony/event-dispatcher": "^3.0"
     },
     "license": "MIT",
     "autoload" : 
     {
-	"psr-0":
-	{
-		"" : "src/"
-	}
+      "psr-0":
+      {
+          "" : "src/"
+      },
+      "psr-4" :
+      {
+          "CurseFramework\\" : "ncurses-framework\\Lib"
+      }
     },
     "authors": [
         {

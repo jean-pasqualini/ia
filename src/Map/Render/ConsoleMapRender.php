@@ -8,12 +8,13 @@
 
 namespace Map\Render;
 
+use Command\NCursesOutput;
 use Map\Builder\MapBuilder;
 use Map\Map;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class ConsoleMapRender
+class ConsoleMapRender implements MapRenderInterface
 {
     protected $standardOutput;
 
@@ -28,6 +29,14 @@ class ConsoleMapRender
         $this->standardOutput = ($buffer) ? $output : null;
 
         $this->output = ($buffer) ? new BufferedOutput() : $output;
+    }
+
+    public function getSize()
+    {
+        return array(
+            "x" => exec('tput lines'),
+            "y" => exec('tput cols')
+        );
     }
 
     public function render($map)
@@ -60,10 +69,11 @@ class ConsoleMapRender
     public function format($item)
     {
         $mapping = array(
-            MapBuilder::HERBE => '<fg=green;bg=green>H</>',
-            MapBuilder::ARBRE => '<fg=black;bg=black>A</>',
-            MapBuilder::EAU => '<fg=cyan;bg=cyan>E</>',
-            "P" => '<fg=magenta;bg=magenta>P</>',
+            MapBuilder::HERBE => '<fg=green;bg=green>✿</>',
+            MapBuilder::FLEUR => '<fg=red;bg=green>✿</>',
+            MapBuilder::ARBRE => '<fg=black;bg=green>↟</>',
+            MapBuilder::EAU => '<fg=white;bg=cyan>∼</>',
+            "P" => '<fg=white;bg=green>☺</>',
         );
 
         return (isset($mapping[$item]) ? $mapping[$item] : $item);
