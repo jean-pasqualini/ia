@@ -7,6 +7,7 @@ use Map\Location\Point;
 use Map\Player\Chat\Estomac;
 use Map\Render\NCurseRender;
 use Map\World\World;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
 /**
  * Created by PhpStorm.
@@ -16,8 +17,6 @@ use Map\World\World;
  */
 class Chat extends Player
 {
-    protected $position;
-
     protected $ia;
 
     protected $estomac;
@@ -26,14 +25,16 @@ class Chat extends Player
     {
         $this->position = new Point(5, 5);
 
-        $this->ia = new CatIA($this);
-
         $this->estomac = new Estomac($this);
+
+        $this->eventDispatcher = new EventDispatcher();
+
+        $this->ia = new CatIA($this);
     }
 
-    public function getPosition()
+    public function getEstomac()
     {
-        return $this->position;
+        return $this->estomac;
     }
 
     public function move()
@@ -55,5 +56,14 @@ class Chat extends Player
         $this->getPosition()->setDirection($world->getInputController()->getDirection());
 
         $this->estomac->update($world);
+    }
+
+    public function __sleep()
+    {
+        return array(
+            "position",
+            "ia",
+            "estomac"
+        );
     }
 }

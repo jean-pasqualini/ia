@@ -35,6 +35,22 @@ class MapBuilder
         return self::$allowedItems;
     }
 
+    public function findItem($item)
+    {
+        foreach($this->map as $y => $line)
+        {
+            foreach($line as $x => $colonne)
+            {
+                if($this->map[$y][$x] == $item)
+                {
+                    return new Point($x, $y);
+                }
+            }
+        }
+
+        return null;
+    }
+
     protected function transformRawMap($map)
     {
         $mapArray = array();

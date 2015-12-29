@@ -70,7 +70,7 @@ class NCursesOutput extends Output {
 
     public function clear()
     {
-        sleep(1);
+        //sleep(1);
 
         ncurses_clear();
     }

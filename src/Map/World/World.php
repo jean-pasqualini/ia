@@ -2,9 +2,12 @@
 namespace Map\World;
 use IA\ApplicationIA;
 use InputController\KeyboardInputController;
+use Logger\FileLogger;
 use Map\Builder\MapBuilder;
 use Memory\MemoryManager;
+use Psr\Log\LogLevel;
 use Snapshot\Instant;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 use Timer;
 
 /**
@@ -27,6 +30,10 @@ class World
 
     protected $inputController;
 
+    protected $logger;
+
+    protected $eventDispatcher;
+
     public function __construct(MapBuilder $map, array $players = array())
     {
         $this->players = $players;
@@ -40,6 +47,20 @@ class World
         $this->memoryManager = new MemoryManager();
 
         $this->inputController = new KeyboardInputController();
+
+        $this->logger = new FileLogger($this->getLogPath()."dev.log");
+
+        $this->eventDispatcher = new EventDispatcher();
+    }
+
+    public function getCachePath()
+    {
+        return __DIR__."/../../../app/cache/";
+    }
+
+    public function getLogPath()
+    {
+        return __DIR__."/../../../app/logs/";
     }
 
     public function getMemoryManager()
@@ -52,8 +73,20 @@ class World
         return $this->inputController;
     }
 
+    public function getLogger()
+    {
+        return $this->logger;
+    }
+
+    public function getEventDispatcher()
+    {
+        return $this->eventDispatcher;
+    }
+
     public function update()
     {
+        $this->logger->log(LogLevel::INFO, "Update world");
+
         $this->timer->update();
 
         $this->inputController->update();
@@ -76,5 +109,15 @@ class World
     public function getPlayerCollection()
     {
         return $this->players;
+    }
+
+    public function __sleep()
+    {
+        return array(
+            "players",
+            "map",
+            "worldIA",
+            "timer"
+        );
     }
 }

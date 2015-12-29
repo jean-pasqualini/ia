@@ -36,45 +36,46 @@ class ApplicationCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        list($line, $colonne) = explode("x", $input->getOption("size"));
+        try {
 
-        
-        $symfonyStyle = new SymfonyStyle($input, $output);
-        $symfonyStyle->title("IA");
+            list($line, $colonne) = explode("x", $input->getOption("size"));
 
-        $mapRender = (!$input->getOption("curse")) ? new ConsoleMapRender($output) : new NCurseRender($line, $colonne);
 
-        if(!$input->getOption("load-dump"))
-        {
-            $map = new MapBuilder((new RandomMapProvider($line, $colonne))->getMap());
+            $symfonyStyle = new SymfonyStyle($input, $output);
+            $symfonyStyle->title("IA");
 
-            $world = new World($map, array(
-                $this->addChat(5, 5),
-                $this->addChat(10, 10)
-            ));
-        }
-        else
-        {
-            $file = $input->getOption("load-dump");
+            $mapRender = (!$input->getOption("curse")) ? new ConsoleMapRender($output) : new NCurseRender($line, $colonne);
 
-            if(!file_exists($file))
+            if(!$input->getOption("load-dump"))
             {
-                if(extension_loaded("ncurses")) ncurses_end();
+                $map = new MapBuilder((new RandomMapProvider($line, $colonne))->getMap());
 
-                $symfonyStyle->error("le fichier $file n'existe pas");
-                return;
+                $world = new World($map, array(
+                    $this->addChat(5, 5),
+                    $this->addChat(10, 10)
+                ));
+            }
+            else
+            {
+                $file = $input->getOption("load-dump");
+
+                if(!file_exists($file))
+                {
+                    if(extension_loaded("ncurses") && $mapRender instanceof NCurseRender) ncurses_end();
+
+                    $symfonyStyle->error("le fichier $file n'existe pas");
+
+                    return;
+                }
+
+                $world = unserialize(file_get_contents($file))->getFlashMemory()->all()[0]->getData();
             }
 
-            $world = unserialize(file_get_contents($file))->getFlashMemory()->all()[0]->getData();
-        }
-
-
-        try {
             $this->render($mapRender, $world);
         }
         catch(\Exception $e)
         {
-            unset($mapRender);
+            if(extension_loaded("ncurses") && $mapRender instanceof NCurseRender) ncurses_end();
 
             $symfonyStyle->error($e->getMessage());
 
@@ -114,7 +115,7 @@ class ApplicationCommand extends Command
 
         $mapRender->render($world->getMap()->getMap());
 
-        usleep(200);
+        //usleep(200);
 
         $mapRender->clear($world->getMap()->getMap());
 

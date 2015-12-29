@@ -101,7 +101,7 @@ class NCurseRender extends Ncurses implements MapRenderInterface {
         //$this->listbox->setChanged(false);
         $this->listbox->drawList();
         $this->listbox->refresh();
-        usleep(100000);
+        //usleep(100000);
     }
     public function clear($map)
     {
