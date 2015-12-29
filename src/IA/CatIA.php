@@ -26,6 +26,7 @@ class CatIA implements IAInterface
         $this->chat = $chat;
 
         $this->chat->getEstomac()->getEventDispatcher()->addListener("hungry", array($this, "onEstomacHungry"));
+        $this->chat->getEstomac()->getEventDispatcher()->addListener("full", array($this, "onEstomacFull"));
     }
 
     public function onEstomacHungry(Event $event, $eventName, EventDispatcher $event)
@@ -35,9 +36,14 @@ class CatIA implements IAInterface
         $this->objectifs[] = new Manger($this->chat);
     }
 
+    public function onEstomacFull(Event $event, $eventName, EventDispatcher $eventDispatcher)
+    {
+        $this->objectifs = array();
+    }
+
     public function update(World $world)
     {
-        $this->chat->move();
+        //$this->chat->move();
 
         foreach($this->objectifs as $objectif)
         {

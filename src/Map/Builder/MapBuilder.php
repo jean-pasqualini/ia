@@ -51,6 +51,19 @@ class MapBuilder
         return null;
     }
 
+    public function crop($x, $y)
+    {
+        $this->map = array_slice($this->map, 0, $y);
+
+        foreach($this->map as $line)
+        {
+            foreach($line as $colonne)
+            {
+                $this->map[$y] = array_slice($this->map[$y], 0, $x);
+            }
+        }
+    }
+
     protected function transformRawMap($map)
     {
         $mapArray = array();

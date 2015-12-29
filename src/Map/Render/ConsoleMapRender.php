@@ -31,6 +31,14 @@ class ConsoleMapRender implements MapRenderInterface
         $this->output = ($buffer) ? new BufferedOutput() : $output;
     }
 
+    public function getSize()
+    {
+        return array(
+            "x" => exec('tput rows'),
+            "y" => exec('tput cols')
+        );
+    }
+
     public function render($map)
     {
         foreach($map as $line)

@@ -60,7 +60,7 @@ class Map extends Window {
             MapBuilder::FLEUR => '✿',
             MapBuilder::ARBRE => '↟',
             MapBuilder::EAU => '∼',
-            "P" => '☺',
+            "P" => '➊',
         );
 
         return (isset($mapping[$item]) ? $mapping[$item] : $item);

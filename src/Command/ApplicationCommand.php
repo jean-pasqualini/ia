@@ -48,11 +48,13 @@ class ApplicationCommand extends Command
 
             if(!$input->getOption("load-dump"))
             {
-                $map = new MapBuilder((new RandomMapProvider($line, $colonne))->getMap());
+                $sizeMap = $mapRender->getSize();
+
+                $map = new MapBuilder((new RandomMapProvider($sizeMap["y"], $sizeMap["x"]))->getMap());
 
                 $world = new World($map, array(
                     $this->addChat(5, 5),
-                    $this->addChat(10, 10)
+                   // $this->addChat(10, 10)
                 ));
             }
             else

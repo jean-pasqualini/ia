@@ -34,6 +34,8 @@ class World
 
     protected $eventDispatcher;
 
+    protected $lastUpdateTime = 0;
+
     public function __construct(MapBuilder $map, array $players = array())
     {
         $this->players = $players;
@@ -85,6 +87,19 @@ class World
 
     public function update()
     {
+        $updateTime = microtime(true);
+
+        $limit = 1000 / 25 / 1000;
+
+        $betweenUpdate = $updateTime - $this->lastUpdateTime;
+
+        if($betweenUpdate < $limit)
+        {
+            return;
+        }
+
+        $this->lastUpdateTime = $updateTime;
+
         $this->logger->log(LogLevel::INFO, "Update world");
 
         $this->timer->update();

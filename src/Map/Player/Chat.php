@@ -15,7 +15,7 @@ use Symfony\Component\EventDispatcher\EventDispatcher;
  * Date: 24/12/2015
  * Time: 11:37
  */
-class Chat extends Player
+class Chat extends Player implements PlayerHasEstomac
 {
     protected $ia;
 

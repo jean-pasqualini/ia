@@ -81,6 +81,15 @@ class NCurseRender extends Ncurses implements MapRenderInterface {
         ncurses_keypad($this->window->getWindow(), true);
     }
 
+    public function getSize()
+    {
+        $this->window->getMaxYX($y, $x);
+        return array(
+            "x" => $x/2,
+            "y" => $y/2
+        );
+    }
+
     public function render($map)
     {
         $this->window->setChanged(true);

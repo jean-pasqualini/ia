@@ -14,6 +14,7 @@ use Map\Location\Direction;
 use Map\Location\Point;
 use Map\Path\PathPoint;
 use Map\Player\Player;
+use Map\Player\PlayerHasEstomac;
 use Map\World\World;
 use Psr\Log\LogLevel;
 
@@ -24,7 +25,7 @@ class Manger {
     /** @var PathPoint */
     protected $path;
 
-    public function __construct(Player $player)
+    public function __construct(PlayerHasEstomac $player)
     {
         $this->player = $player;
     }
@@ -34,6 +35,8 @@ class Manger {
         if($this->path !== null && $this->path->isEnd())
         {
             $world->getLogger()->log(LogLevel::INFO, "le chat mange");
+
+            $this->player->getEstomac()->setNouriture($this->player->getEstomac()->getNouriture() + 10);
 
             $world->getMap()->setItem($this->path->getDestination(), MapBuilder::HERBE);
 
