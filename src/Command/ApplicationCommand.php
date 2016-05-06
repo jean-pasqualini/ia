@@ -79,7 +79,7 @@ class ApplicationCommand extends Command
                 $world = unserialize(file_get_contents($file))->getFlashMemory()->all()[0]->getData();
             }
 
-            $this->render($mapRender, $world);
+            while(1) { $this->render($mapRender, $world); }
         }
         catch(\Exception $e)
         {
@@ -126,7 +126,5 @@ class ApplicationCommand extends Command
         //usleep(200);
 
         $mapRender->clear($world->getMap()->getMap());
-
-        $this->render($mapRender, $world);
     }
 }
