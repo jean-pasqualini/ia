@@ -11,6 +11,7 @@ namespace Command;
 
 use Map\Builder\MapBuilder;
 use Map\Location\Direction;
+use Map\Provider\FileMapProvider;
 use Map\Provider\RandomMapProvider;
 use Map\Render\ConsoleMapRender;
 use Map\Player\Chat;
@@ -32,10 +33,13 @@ class ApplicationCommand extends Command
         $this->addOption("curse", null, InputOption::VALUE_NONE, "active curse");
         $this->addOption("size", null, InputOption::VALUE_REQUIRED, "taille", exec('tput lines')."x".exec('tput cols'));
         $this->addOption("load-dump", null, InputOption::VALUE_REQUIRED, "memory load dump");
+        $this->addOption("map", null, InputOption::VALUE_REQUIRED, "file");
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        mb_internal_encoding('UTF-8');
+
         try {
 
             list($line, $colonne) = explode("x", $input->getOption("size"));
@@ -50,7 +54,9 @@ class ApplicationCommand extends Command
             {
                 $sizeMap = $mapRender->getSize();
 
-                $map = new MapBuilder((new RandomMapProvider($sizeMap["y"], $sizeMap["x"]))->getMap());
+                $mapProvider = ($input->getOption("map")) ? new FileMapProvider($input->getOption("map")) : new RandomMapProvider($sizeMap["y"], $sizeMap["x"]);
+
+                $map = new MapBuilder($mapProvider->getMap());
 
                 $world = new World($map, array(
                     $this->addChat(5, 5),

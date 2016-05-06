@@ -15,6 +15,8 @@ class InstantCollectionLimited extends InstantCollection {
 
     public function __construct($limit)
     {
+        $this->instantCollection = new \SplFixedArray(10);
+
         $this->limit = $limit;
     }
 

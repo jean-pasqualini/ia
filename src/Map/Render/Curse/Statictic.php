@@ -10,6 +10,8 @@ namespace Map\Render\Curse;
 
 
 use CurseFramework\Listbox;
+use IA\ApplicationIA;
+use Map\World\World;
 
 class Statictic extends Listbox {
 
@@ -17,6 +19,7 @@ class Statictic extends Listbox {
     {
         $this->setItems(array(
             array("title" => "memory : ".$this->convert(memory_get_usage()), "bold" => false),
+            array("title" => "timer : ".World::getInstance()->getTimer()->getTick(), "bold" => false),
         ));
 
         $this->setChanged(true);
