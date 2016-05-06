@@ -12,6 +12,8 @@ use Map\Builder\MapBuilder;
 
 class Map extends Window {
 
+    const DEFAULT_ITEM = 'Z';
+
     public function __construct($rows, $cols, $y, $x)
     {
         parent::__construct($rows, $cols, $y, $x);
@@ -31,6 +33,8 @@ class Map extends Window {
             ncurses_init_pair($mappingColor["P"], NCURSES_COLOR_WHITE, NCURSES_COLOR_BLACK);
 
             ncurses_init_pair($mappingColor[MapBuilder::FLEUR], NCURSES_COLOR_RED, NCURSES_COLOR_GREEN);
+
+            ncurses_init_pair($mappingColor[self::DEFAULT_ITEM], NCURSES_COLOR_WHITE, NCURSES_COLOR_BLACK);
         }
     }
 
@@ -60,7 +64,7 @@ class Map extends Window {
             MapBuilder::FLEUR => '✿',
             MapBuilder::ARBRE => '↟',
             MapBuilder::EAU => '∼',
-            "P" => '➊',
+            "P" => '☃',
         );
 
         return (isset($mapping[$item]) ? $mapping[$item] : $item);
@@ -73,7 +77,8 @@ class Map extends Window {
             MapBuilder::ARBRE => 2,
             MapBuilder::EAU => 3,
             "P" => 4,
-            MapBuilder::FLEUR => 6
+            MapBuilder::FLEUR => 6,
+            self::DEFAULT_ITEM => 7
         );
     }
 
@@ -89,6 +94,6 @@ class Map extends Window {
             "P" => $mappingColor["P"],
         );
 
-        return (isset($mapping[$item]) ? $mapping[$item] : $item);
+        return (isset($mapping[$item]) ? $mapping[$item] : $mappingColor[self::DEFAULT_ITEM]);
     }
 }
