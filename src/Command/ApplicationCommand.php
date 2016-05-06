@@ -11,6 +11,7 @@ namespace Command;
 
 use Map\Builder\MapBuilder;
 use Map\Location\Direction;
+use Map\Location\Point;
 use Map\Provider\FileMapProvider;
 use Map\Provider\RandomMapProvider;
 use Map\Render\ConsoleMapRender;
@@ -114,16 +115,24 @@ class ApplicationCommand extends Command
             return;
         }
 
+        if($world->getInputController()->getKey() == "a")
+        {
+            $world->getMap()->setItem(new Point(5, 5), 'F');
+
+            return;
+        }
+
         $players = $world->getPlayerCollection();
 
         foreach($players as $player)
         {
-            $world->getMap()->setItem($player->getPosition(), "P");
+            $world->getMap()->getMapLayer('player')->emptyMap();
+            $world->getMap()->getMapLayer('player')->setItem($player->getPosition(), "P");
         }
 
-        $mapRender->render($world->getMap()->getMap());
+      // $world->getMap()->debug($world->getMap()->getMapMerged());
 
-        //usleep(200);
+        $mapRender->render($world->getMap()->getMapMerged());
 
         $mapRender->clear($world->getMap()->getMap());
     }

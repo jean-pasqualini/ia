@@ -53,8 +53,6 @@ class PathPoint {
             "Y" => 0
         );
 
-        $world->getMap()->setItem($positionPlayer, MapBuilder::HERBE);
-
         if($positionPlayer->getX() < $this->destination->getX())
         {
             $direction["X"] = 1;
