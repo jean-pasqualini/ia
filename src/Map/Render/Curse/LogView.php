@@ -27,8 +27,9 @@ class LogView extends Window
         $logs = $this->bufferLogger->getLogs();
 
         foreach ($logs as $i => $message) {
+            $message = str_pad($message, 80, ' ', STR_PAD_RIGHT);
             ncurses_wmove($this->getWindow(), $i + 1, 1);
-            ncurses_waddstr($this->getWindow(), $message);
+            //ncurses_waddstr($this->getWindow(), $message);
         }
     }
 }

@@ -12,3 +12,5 @@ RUN locale-gen en_US.UTF-8
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
+
+COPY ./ncurses.ini /etc/php5/cli/conf.d/30-ncurses.ini

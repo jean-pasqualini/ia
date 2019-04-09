@@ -10,6 +10,7 @@ namespace InputController;
 
 
 use Map\Location\Direction;
+use Map\Player\PlayerInterface;
 use Psr\Log\LoggerInterface;
 
 class KeyboardInputController {
@@ -18,11 +19,15 @@ class KeyboardInputController {
 
     public $key;
 
+    /** @var PlayerInterface */
+    private $player;
+
     /** @var LoggerInterface */
     private $logger;
 
-    public function __construct(LoggerInterface $logger)
+    public function __construct(PlayerInterface $player, LoggerInterface $logger)
     {
+        $this->player = $player;
         $this->direction = new Direction(0, 0);
         $this->logger = $logger;
     }
@@ -37,6 +42,17 @@ class KeyboardInputController {
         return $this->key;
     }
 
+    public function isKey($key)
+    {
+        $is = $this->key == $key;
+
+        if ($is) {
+            $this->key = null;
+        }
+
+        return $is;
+    }
+
     public function update()
     {
         $stdin = fopen('php://stdin', 'r');
@@ -44,7 +60,6 @@ class KeyboardInputController {
         stream_set_timeout($stdin, 0, 200);
 
         $key = fgets($stdin, 2);
-        $directionActive = true;
 
         // No input right now
         if (!empty($key)) {
@@ -66,12 +81,18 @@ class KeyboardInputController {
                     $this->direction = new Direction(0, 1);
                     break;
                 default:
-                    $directionActive = false;
                     $this->direction = new Direction(0, 0);
                     break;
             }
+
+            $this->player->getPosition()->setDirection($this->direction);
+            $this->player->move();
+
+            $this->logger->info(sprintf(
+                'KEYPRESS %s',
+                $key
+            ));
         }
 
-       // $this->logger->info(sprintf('KEY PRESSED %s', $key));
     }
 }

@@ -62,7 +62,7 @@ class World
 
         $this->memoryManager = new MemoryManager();
 
-        $this->inputController = new KeyboardInputController($logger);
+        $this->inputController = new KeyboardInputController($players[0], $logger);
 
         $this->logger = !empty($logger) ? $logger : new MultipleLogger();
         $this->logger->addLogger(new FileLogger($this->getLogPath()."dev.log"));
@@ -147,7 +147,9 @@ class World
             "players",
             "map",
             "worldIA",
-            "timer"
+            "timer",
+            "logger",
+            "inputController"
         );
     }
 }

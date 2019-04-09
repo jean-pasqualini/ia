@@ -8,10 +8,8 @@
 
 namespace IA;
 
-
 use Map\World\World;
 use Map\Player\Player;
-use IA\IAInterface;
 
 class ApplicationIA implements IAInterface
 {

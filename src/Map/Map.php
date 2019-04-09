@@ -22,4 +22,9 @@ class Map
     {
         return $this->map;
     }
+
+    public function __sleep()
+    {
+        return array("map");
+    }
 }

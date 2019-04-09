@@ -1,6 +1,8 @@
 IA PHP
 ------
 
+Bonjour je suis
+
 Cette inteligence artificiel est représenté par un chat sur une map.
 
 Le premier palier est la représentation des bas instincs :

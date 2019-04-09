@@ -12,6 +12,7 @@ namespace Command;
 use Logger\MultipleLogger;
 use Map\Builder\MapBuilder;
 use Map\Location\Direction;
+use Map\Location\Point;
 use Map\Provider\FileMapProvider;
 use Map\Provider\RandomMapProvider;
 use Map\Render\ConsoleMapRender;
@@ -109,11 +110,21 @@ class ApplicationCommand extends Command
     {
         $world->update();
 
-        if($world->getInputController()->getKey() == "x")
+        if($world->getInputController()->isKey("x"))
         {
             $world->getMemoryManager()->persist();
 
             return;
+        }
+
+        if($world->getInputController()->isKey("b"))
+        {
+            $width = $world->getMap()->getWidth();
+            $height = $world->getMap()->getHeight();
+
+            $x = rand(1, $width) - 1;
+            $y = rand(1, $height) - 1;
+            $world->getMap()->setItem(new Point($x, $y), 'F');
         }
 
         $players = $world->getPlayerCollection();

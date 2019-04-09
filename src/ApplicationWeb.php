@@ -29,7 +29,7 @@ if(!isset($_SESSION["world"]))
 
     $world = new \Map\World\World($map, array(
         $chat
-    ));
+    ), new \Logger\MultipleLogger());
 }
 else
 {
@@ -54,4 +54,4 @@ catch(Exception $e)
     echo "<h1>".$e->getMessage()."</h1>";
 }
 
-//$_SESSION["world"] = serialize($world);
+$_SESSION["world"] = serialize($world);

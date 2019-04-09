@@ -32,4 +32,15 @@ class FileLogger extends AbstractLogger {
     {
         $this->file->fwrite("[".date("H:i:s")."] [$level] : ".$message.PHP_EOL);
     }
+
+    public function __sleep()
+    {
+        $this->file = $this->file->getPathname();
+        return array("file");
+    }
+
+    public function __wakeup()
+    {
+        $this->file = new \SplFileObject($this->file);
+    }
 }

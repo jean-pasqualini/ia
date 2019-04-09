@@ -78,4 +78,9 @@ class Estomac
             "player"
         );
     }
+
+    public function __wakeup()
+    {
+        $this->eventDispatcher = new EventDispatcher();
+    }
 }

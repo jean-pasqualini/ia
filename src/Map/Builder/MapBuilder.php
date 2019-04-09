@@ -90,4 +90,14 @@ class MapBuilder
     {
         return $this->map;
     }
+
+    public function getWidth()
+    {
+        return count($this->map[0]);
+    }
+
+    public function getHeight()
+    {
+        return count($this->map);
+    }
 }

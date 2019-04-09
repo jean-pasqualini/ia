@@ -42,6 +42,7 @@ class Chat extends Player implements PlayerHasEstomac
         $this->position->move();
     }
 
+
     public function getIa()
     {
         return $this->ia;
@@ -55,7 +56,7 @@ class Chat extends Player implements PlayerHasEstomac
 
         $this->getPosition()->setDirection($world->getInputController()->getDirection());
 
-        //$this->estomac->update($world);
+        $this->estomac->update($world);
     }
 
     public function __sleep()

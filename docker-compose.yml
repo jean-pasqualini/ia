@@ -1,5 +1,7 @@
 app:
     build: ./
+    ports:
+        - "80:8000"
     volumes:
         - "$PWD:/app"
         - "./ncurses.ini:/etc/php5/cli/conf.d/ncurses.ini"

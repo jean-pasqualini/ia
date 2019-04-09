@@ -24,9 +24,18 @@ class CatIA implements IAInterface
     public function __construct(Chat $chat)
     {
         $this->chat = $chat;
+        $this->init();
+    }
 
+    public function init()
+    {
         $this->chat->getEstomac()->getEventDispatcher()->addListener("hungry", array($this, "onEstomacHungry"));
         $this->chat->getEstomac()->getEventDispatcher()->addListener("full", array($this, "onEstomacFull"));
+    }
+
+    public function __wakeup()
+    {
+        //$this->init();
     }
 
     public function onEstomacHungry(Event $event, $eventName, EventDispatcher $eventDispatcher)
