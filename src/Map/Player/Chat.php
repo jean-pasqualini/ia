@@ -24,11 +24,8 @@ class Chat extends Player implements PlayerHasEstomac
     public function __construct()
     {
         $this->position = new Point(5, 5);
-
-        $this->estomac = new Estomac($this);
-
         $this->eventDispatcher = new EventDispatcher();
-
+        $this->estomac = new Estomac($this->eventDispatcher);
         $this->ia = new CatIA($this);
     }
 

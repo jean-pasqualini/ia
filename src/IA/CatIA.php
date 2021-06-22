@@ -11,6 +11,7 @@ namespace IA;
 
 use IA\Objectif\Manger;
 use Map\Player\Chat;
+use Map\Player\ChatEvent;
 use Map\World\World;
 use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\EventDispatcher\EventDispatcher;
@@ -25,18 +26,18 @@ class CatIA implements IAInterface
     {
         $this->chat = $chat;
 
-        $this->chat->getEstomac()->getEventDispatcher()->addListener("hungry", array($this, "onEstomacHungry"));
-        $this->chat->getEstomac()->getEventDispatcher()->addListener("full", array($this, "onEstomacFull"));
+        $this->chat->getEventDispatcher()->addListener(ChatEvent::HUNGRY, array($this, "onEstomacHungry"));
+        $this->chat->getEventDispatcher()->addListener(ChatEvent::FULL, array($this, "onEstomacFull"));
     }
 
-    public function onEstomacHungry(Event $event, $eventName, EventDispatcher $eventDispatcher)
+    public function onEstomacHungry()
     {
         if(!empty($this->objectifs)) return;
 
         $this->objectifs[] = new Manger($this->chat);
     }
 
-    public function onEstomacFull(Event $event, $eventName, EventDispatcher $eventDispatcher)
+    public function onEstomacFull()
     {
         $this->objectifs = array();
     }

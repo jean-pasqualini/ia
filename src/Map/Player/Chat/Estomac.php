@@ -9,6 +9,7 @@
 namespace Map\Player\Chat;
 
 
+use Map\Player\ChatEvent;
 use Map\Player\Player;
 use Map\World\World;
 use Psr\Log\LogLevel;
@@ -19,15 +20,11 @@ class Estomac
 {
     protected $nouriture = 10;
 
-    protected $player;
-
     protected $eventDispatcher;
 
-    public function __construct(Player $player)
+    public function __construct(EventDispatcher $eventDispatcher)
     {
-        $this->player = $player;
-
-        $this->eventDispatcher = new EventDispatcher();
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     public function getNouriture()
@@ -44,21 +41,13 @@ class Estomac
     {
         $world->getLogger()->log(LogLevel::INFO, "[ESTOMAC] Nouriture : ".$this->getNouriture());
 
-        if($this->nouriture == 0 && $world->getTimer()->isTime(1))
-        {
-            $this->getEventDispatcher()->dispatch("hungry", new Event());
-
-            //$this->player->setLife($this->player->getLife() - 1);
-
-            return;
-        }
-        else
-        {
-            $this->getEventDispatcher()->dispatch("full", new Event());
+        if($this->nouriture == 0 && $world->getTimer()->isTime(1)) {
+            $this->getEventDispatcher()->dispatch(ChatEvent::HUNGRY, new Event());
+        } else {
+            $this->getEventDispatcher()->dispatch(ChatEvent::FULL, new Event());
         }
 
-        if($world->getTimer()->isTime(10))
-        {
+        if($world->getTimer()->isTime(10)) {
             $this->nouriture--;
         }
     }
